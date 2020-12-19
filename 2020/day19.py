@@ -20,13 +20,18 @@ aaaabbb"""
 linea = None
 ix = 0
 reglas = {}
+def parserule(ruletxt):
+    partes = linea.split(":")
+    ors = partes[1].split(" | ")
+    return partes[0], [orpart.strip().split(" ") for orpart in ors]
+    
 while True:
     linea = inputd[ix].strip()
     if linea == "": break
-    #print(linea)
-    partes = linea.split(":")
-    ors = partes[1].split(" | ")
-    reglas[partes[0]] = [orpart.strip().split(" ") for orpart in ors]
+
+    k, v = parserule(linea)
+    reglas[k] = v
+
     ix += 1
     
 # Solución mala:
@@ -101,13 +106,11 @@ extrarules = """8: 42 | 42 8
 11: 42 31 | 42 11 31"""
 
 for linea in extrarules.split("\n"):
-    linea = linea.strip()
-    if linea == "": break
-    partes = linea.split(":")
-    ors = partes[1].split(" | ")
-    reglas[partes[0]] = [orpart.strip().split(" ") for orpart in ors]
-    ix += 1
+    k, v = parserule(linea.strip())
+    reglas[k] = v
+
 #print(reglas["11"], reglas["8"])
+
 ix = firsttest
 tests = []
 while ix < len(inputd):
